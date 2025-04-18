@@ -9,6 +9,8 @@
     "dev": "tsup src/index.ts --dts --watch"
   },
   "dependencies": {
+    "@tsconfig/typescript-config": "*",
+    "@shared/core": "*",
     "tsup": "^8.4.0"
   },
   "keywords": [],
