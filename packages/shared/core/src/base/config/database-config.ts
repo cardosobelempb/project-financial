@@ -18,7 +18,7 @@ export interface DBConnections {
   production: DBConfig;
 }
 
-export interface AppDatabaseConfig {
+export interface DatabaseConfig {
   environment: Environment;
   connections: DBConnections;
 }
@@ -27,7 +27,7 @@ export interface AppDatabaseConfig {
 const currentEnv: Environment =
   (process.env.NODE_ENV as Environment) || "development";
 
-export const dbConfig: AppDatabaseConfig = {
+export const dbConfig: DatabaseConfig = {
   environment: currentEnv,
 
   connections: {
