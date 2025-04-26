@@ -1,5 +1,2 @@
-export * from './group';
-export * from './permission';
-export * from './profile';
-export * from './user';
-
+export * from '../../../user/core/src/entities'
+export * from './services'
