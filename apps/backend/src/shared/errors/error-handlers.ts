@@ -1,19 +1,13 @@
 // error-handlers.ts
-import { HttpStatus } from '@nestjs/common'
-import { ErrorConstants } from '@shared/core'
-import { Request } from 'express'
+import { HttpStatus } from '@nestjs/common';
 
-import { StandardError, ValidationError } from './error.interfaces'
-
-type errors =
-  | {
-      field: string
-      message: string
-    }[]
-  | undefined
+import { StandardError } from './standard-error.interface';
+import { ValidationError } from './validation-error.interface';
+import { Request } from 'express';
+import { ErrorConstants } from '@shared/core';
 
 export const errorHandlers = {
-  ResourceNotFoundError: (error: Error, request: Request): StandardError => ({
+  ResourceNotFoundError: (error: any, request: Request): StandardError => ({
     timestamp: new Date().toISOString(),
     status: HttpStatus.NOT_FOUND,
     error: ErrorConstants.NOT_FOUND,
@@ -21,7 +15,7 @@ export const errorHandlers = {
     path: request.url,
   }),
 
-  EntityNotFoundError: (error: Error, request: Request): StandardError => ({
+  EntityNotFoundError: (error: any, request: Request): StandardError => ({
     timestamp: new Date().toISOString(),
     status: HttpStatus.NOT_FOUND,
     error: ErrorConstants.ENTITY_NOT_FOUND,
@@ -30,7 +24,7 @@ export const errorHandlers = {
   }),
 
   DataIntegrityViolationError: (
-    error: Error,
+    error: any,
     request: Request,
   ): StandardError => ({
     timestamp: new Date().toISOString(),
@@ -40,28 +34,25 @@ export const errorHandlers = {
     path: request.url,
   }),
 
-  BadRequestError: (
-    error: Error & { response?: { message?: string[] } },
-    request: Request,
-  ): ValidationError => {
-    const status = HttpStatus.UNPROCESSABLE_ENTITY
-    const errors: errors = Array.isArray(error.response?.message)
+  BadRequestError: (error: any, request: Request): ValidationError => {
+    const status = HttpStatus.UNPROCESSABLE_ENTITY;
+    const errors = Array.isArray(error.response?.message)
       ? error.response.message.map((msg: string) => {
-          const [field, ...rest] = msg.split(':')
+          const [field, ...rest] = msg.split(':');
           return {
             field: field.trim(),
             message: rest.join(':').trim(),
-          }
+          };
         })
-      : []
+      : [];
 
     return {
       timestamp: new Date().toISOString(),
       status,
-      error: ErrorConstants.INTEGRITY_VIOLATION,
+      error: ErrorConstants.VALIDATION_ERROR,
       message: error.message,
       path: request.url,
       errors,
-    }
+    };
   },
-}
+};

@@ -1,58 +1,16 @@
-import {
-  AggregateRoot,
-  Encrypter,
-  HashComparer,
-  HashGenerator,
-  Repository,
-  WatchedList,
-} from './abstract'
-import {
-  DataIntegrityViolationError,
-  ErrorConstants,
-  ForbiddenError,
-  FieldMessage,
-  IllegalArgumentError,
-  MethodArgumentNotValidError,
-  NotFoundError,
-  StandardError,
-  ResourceNotFoundError,
-  UnauthorizedError,
-  ConflictError,
-  ValidationError,
-  BadRequestError,
-} from './errors'
+import { AggregateRoot, Auth, BcryptHashing, Encrypter, HashComparer, HashGenerator, MapperConverter, Repository, WatchedList } from './abstract'
+import { BadRequestError, ConflictError, DataIntegrityViolationError, ErrorConstants, FieldMessage, ForbiddenError, IllegalArgumentError, MethodArgumentNotValidError, NotFoundError, ResourceNotFoundError, StandardError, UnauthorizedError, ValidationError } from './errors'
 import { DomainEvents, IDomainEvent, IEventHandler } from './events'
-import { Either, Left, Right, left, right } from './handle-errors'
+import { Either, left, Left, right, Right } from './handle-errors'
 import { IPagination, IService } from './interfaces'
 import { Optional } from './optional'
 import { Result } from './result'
 import { waitFor } from './test'
-import {
-  ValidError,
-  ValidErrors,
-  ValidFieldMessage,
-  ValidateErrors,
-  ValidationErrors,
-  ValidatorConstants,
-  ValidatorUtils,
-} from './validations'
-
-import {
-  DateUtils,
-  NumberUtils,
-  ObjectUtils,
-  StringUtils,
-  TimeUtils,
-} from './utils'
+import { DateUtils, NumberUtils, ObjectUtils, StringUtils, TimeUtils, UUIDV4 } from './utils'
+import { ValidateErrors, ValidationErrors, ValidatorConstants, ValidatorUtils, ValidError, ValidErrors, ValidFieldMessage } from './validations'
 
 export {
-  AggregateRoot,
-  DataIntegrityViolationError,
-  ResourceNotFoundError,
-  UnauthorizedError,
-  ConflictError,
-  BadRequestError,
-  DateUtils,
+  AggregateRoot, Auth, BadRequestError, BcryptHashing, ConflictError, DataIntegrityViolationError, DateUtils,
   DomainEvents,
   Encrypter,
   ErrorConstants,
@@ -61,28 +19,17 @@ export {
   HashComparer,
   HashGenerator,
   IllegalArgumentError,
-  Left,
-  NumberUtils,
+  Left, left, MapperConverter, MethodArgumentNotValidError, NotFoundError, NumberUtils,
   ObjectUtils,
-  Repository,
-  MethodArgumentNotValidError,
-  Result,
-  Right,
-  StandardError,
+  Repository, ResourceNotFoundError, Result,
+  Right, right, StandardError,
   StringUtils,
-  TimeUtils,
-  NotFoundError,
-  ValidError,
-  ValidErrors,
-  ValidFieldMessage,
-  ValidationError,
+  TimeUtils, UnauthorizedError, UUIDV4, ValidationError,
   ValidationErrors,
   ValidatorConstants,
-  ValidatorUtils,
-  WatchedList,
-  left,
-  right,
-  waitFor,
+  ValidatorUtils, ValidError,
+  ValidErrors,
+  ValidFieldMessage, waitFor, WatchedList
 }
 export type {
   Either,
@@ -91,5 +38,6 @@ export type {
   IPagination,
   IService,
   Optional,
-  ValidateErrors,
+  ValidateErrors
 }
+

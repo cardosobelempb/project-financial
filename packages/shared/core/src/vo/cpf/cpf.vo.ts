@@ -1,7 +1,9 @@
+import { BadRequestError } from "../../base";
+
 export class Cpf {
   constructor(readonly value: string) {
     if (!Cpf.isValid(value)) {
-      throw new Error('cpf.invalid');
+      throw new BadRequestError('cpf.invalid');
     }
    }
 
@@ -12,7 +14,7 @@ export class Cpf {
   toValue() {
     return this.value
   }
-  
+
   /**
    * Valida um CPF.
    */

@@ -1,2 +1,3 @@
-export * from '../../../user/core/src/entities'
 export * from './services'
+export * from './user/entities'
+

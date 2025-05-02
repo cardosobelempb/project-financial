@@ -1,7 +1,9 @@
+import { BadRequestError } from "../../base";
+
 export class Email {
   constructor(readonly value: string) {
     if (!Email.isValid(value)) {
-      throw new Error('email.invalid');
+      throw new BadRequestError('email.invalid');
     }
   }
 
