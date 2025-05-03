@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "name": "Kaike Cardoso",
   "email": "kaike.c.lima@hotmail.com",
-  "password": "262011"
+  "password": "M26201123n@"
 }
 
 ###

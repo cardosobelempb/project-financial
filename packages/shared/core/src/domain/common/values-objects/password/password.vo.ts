@@ -2,6 +2,8 @@
 
 import { BadRequestError } from '../../errors'
 
+
+
 interface PasswordOptions {
   minLength?: number
   maxLength?: number
@@ -13,7 +15,7 @@ interface PasswordOptions {
 
 export class PasswordVO {
   private readonly value: string
-  // private readonly bcrypt: BcryptHasher
+  // private readonly bcrypt: HashGenerator
 
   constructor(password: string, options: PasswordOptions = {}) {
     const {
@@ -115,3 +117,6 @@ export class PasswordVO {
     return this.value
   }
 }
+
+// const password = new PasswordVO('C12345678v@')
+// console.log(password.getValue())

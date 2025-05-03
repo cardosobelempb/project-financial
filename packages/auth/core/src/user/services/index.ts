@@ -1,1 +1,2 @@
-export { };
+export { RegisterUserService } from './register-user.service';
+

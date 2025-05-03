@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ConflictError, ResourceNotFoundError, right } from '@shared/core';
-import { IUser, RegisterUserService } from '@user/core';
+import { RegisterUserService } from '@auth/core';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { BadRequestError, ConflictError, ResourceNotFoundError, right } from '@shared/core';
+import { IUser } from '@user/core';
 
 @Controller('/register')
 export class RegisterUserController {
@@ -31,7 +32,7 @@ export class RegisterUserController {
         case ConflictError:
           throw new ConflictError(error.message);
         default:
-          throw new BadRequestException(error.message);
+          throw new BadRequestError(error.message);
       }
     }
 

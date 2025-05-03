@@ -1,6 +1,6 @@
-import { User } from './entities'
+
 
 // import {} from './services'
 
-export { User }
+export { RegisterUserService } from './services';
 

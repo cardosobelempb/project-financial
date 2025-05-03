@@ -1,7 +1,7 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpStatus,
   Logger,
 } from '@nestjs/common';
@@ -39,22 +39,15 @@ export class ErrorFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let error: StandardError | ValidationError = {
-      timestamp: new Date().toISOString(),
-      status,
-      error: 'Internal server error',
-      message: exception.message || 'Unexpected error',
-      path: request.url,
-    };
+    const status = HttpStatus.INTERNAL_SERVER_ERROR;
 
     // Verificação explícita para ZodError
     if (exception instanceof ZodError) {
       this.logger.error('Zod validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.UNPROCESSABLE_ENTITY;
+      const status = HttpStatus.UNPROCESSABLE_ENTITY;
       const validationError: ValidationError = {
-        ...error,
+        timestamp: new Date().toISOString(),
         status,
         error: ErrorConstants.INTEGRITY_VIOLATION,
         message: 'Validation failed',
@@ -62,6 +55,7 @@ export class ErrorFilter implements ExceptionFilter {
           field: issue.path.join('.'),
           message: issue.message,
         })),
+        path: request.url,
       };
 
       return response.status(status).json(validationError);
@@ -71,7 +65,7 @@ export class ErrorFilter implements ExceptionFilter {
     if (exception instanceof ConflictError) {
       this.logger.error('ConflictError validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.CONFLICT;
+      const status = HttpStatus.CONFLICT;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -87,7 +81,7 @@ export class ErrorFilter implements ExceptionFilter {
     if (exception instanceof ResourceNotFoundError) {
       this.logger.error('ResourceNotFoundError validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.NOT_FOUND;
+      const status = HttpStatus.NOT_FOUND;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -103,7 +97,7 @@ export class ErrorFilter implements ExceptionFilter {
     if (exception instanceof EntityNotFoundError) {
       this.logger.error('EntityNotFoundError validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.NOT_FOUND;
+      const status = HttpStatus.NOT_FOUND;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -119,7 +113,7 @@ export class ErrorFilter implements ExceptionFilter {
     if (exception instanceof NotAllwedError) {
       this.logger.error('NotAllwedError validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.METHOD_NOT_ALLOWED;
+      const status = HttpStatus.METHOD_NOT_ALLOWED;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -137,7 +131,7 @@ export class ErrorFilter implements ExceptionFilter {
         'DataIntegrityViolationError validation error detected',
       ); // Logando o erro de Zod
 
-      status = HttpStatus.NOT_FOUND;
+      const status = HttpStatus.NOT_FOUND;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -153,7 +147,7 @@ export class ErrorFilter implements ExceptionFilter {
     if (exception instanceof BadRequestError) {
       this.logger.error('BadRequestError validation error detected'); // Logando o erro de Zod
 
-      status = HttpStatus.BAD_REQUEST;
+      const status = HttpStatus.BAD_REQUEST;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -171,7 +165,7 @@ export class ErrorFilter implements ExceptionFilter {
         'MethodArgumentNotValidError validation error detected',
       ); // Logando o erro de Zod
 
-      status = HttpStatus.BAD_REQUEST;
+      const status = HttpStatus.BAD_REQUEST;
       const standardError: StandardError = {
         timestamp: new Date().toISOString(),
         status,
@@ -187,6 +181,6 @@ export class ErrorFilter implements ExceptionFilter {
     this.logger.error(exception.stack || exception.message);
 
     // Retornando a resposta com o erro processado
-    response.status(status).json(error);
+    response.status(status).json(exception);
   }
 }

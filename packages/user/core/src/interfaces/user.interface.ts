@@ -1,14 +1,16 @@
 import {
+  BadRequestError,
   ConflictError,
   Either,
   EmailVO,
   NameVO,
   NotAllwedError,
+  PasswordVO,
   ResourceNotFoundError,
   UUIDVO,
 } from '@shared/core'
-import { UserPresenter } from '../infrastruecture'
 import { User } from '../domain'
+import { UserPresenter } from '../infrastruecture'
 export namespace IUser {
   export enum IRoles {
     ADMIN = 'ADMIN',
@@ -20,7 +22,7 @@ export namespace IUser {
     id?: UUIDVO
     name: NameVO
     email: EmailVO
-    password?: string
+    password?: PasswordVO
     role?: IRoles
     emailVerified?: Date | null
     image?: string
@@ -53,7 +55,7 @@ export namespace IUser {
   }
 
   export type ICreateResponse = Either<
-    ResourceNotFoundError | ConflictError,
+    ResourceNotFoundError | ConflictError | BadRequestError,
     {}
   >
 

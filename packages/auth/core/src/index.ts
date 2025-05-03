@@ -1,3 +1,3 @@
-export * from './services'
-export * from './user/entities'
+
+export * from './user/services';
 

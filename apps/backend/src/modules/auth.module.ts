@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { HashGenerator } from '@shared/core';
-import { RegisterUserService, UserRepository } from '@user/core';
+import { UserRepository } from '@user/core';
 
+import { RegisterUserService } from '@auth/core';
 import { RegisterUserController } from '../infra/controllers/auth/register-user.controller';
 import { USER_REPOSITORY } from '../shared/constants/repositories.constants';
 import { CryptoGraphyModule } from './cryptography.module';
@@ -10,7 +11,6 @@ import { DatabaseModule } from './database.module';
 @Module({
   imports: [DatabaseModule, CryptoGraphyModule], // Importando o DatabaseModule para ter acesso ao USER_REPOSITORY
   controllers: [
-
     RegisterUserController,
   ],
   providers: [

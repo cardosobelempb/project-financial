@@ -1,11 +1,11 @@
-import { UniqueUUID } from '@shared/core'
+import { UUIDVO } from '@shared/core'
 
 import { User } from './user.entity'
 import { IUser } from './user.interface'
 
 export function userFactory(
   override: Partial<IUser.IProps> = {},
-  id?: UniqueUUID,
+  id?: UUIDVO,
 ) {
   const user = User.create(
     {

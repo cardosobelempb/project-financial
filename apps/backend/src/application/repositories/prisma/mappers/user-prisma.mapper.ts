@@ -1,5 +1,5 @@
 import { Prisma, User as UserMapper } from '@prisma/client';
-import { EmailVO, NameVO, UUIDVO } from '@shared/core';
+import { EmailVO, NameVO, PasswordVO, UUIDVO } from '@shared/core';
 import { IUser, User } from '@user/core';
 
 export class UserPrismaMapper {
@@ -9,7 +9,7 @@ export class UserPrismaMapper {
         id: new UUIDVO(raw.id),
         name: new NameVO(raw.name),
         email: new EmailVO(raw.email),
-        password: raw.password ?? undefined,
+        password: raw.password ? new PasswordVO(raw.password) : undefined,
         image: raw.image ?? undefined,
         paymentMethod: raw.paymentMethod ?? undefined,
         role: raw.role as IUser.IRoles,
@@ -26,7 +26,7 @@ export class UserPrismaMapper {
       id: entity.id.getValue(),
       name: entity.name.getValue(),
       email: entity.email.getValue(),
-      password: entity.password,
+      password: entity.password ? entity.password.getValue() : undefined,
       image: entity.image,
       paymentMethod: entity.paymentMethod,
       emailVerified: entity.emailVerified,
